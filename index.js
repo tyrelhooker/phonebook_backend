@@ -1,11 +1,17 @@
 const express = require('express');
 const db = require("./db.json");
+const morgan = require('morgan');
 
 const app = express();
 
+// Middleware
 app.use(express.json());
 
+morgan.token('reqBody', (req, res) => JSON.stringify(req.body))
 
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :reqBody'));
+
+// Global Variables and Functions
 let persons = db.persons.map(person => person);
 console.log(persons);
 
@@ -50,6 +56,7 @@ app.delete('/api/persons/:id', (req, res) => {
 
 app.post('/api/persons', (req, res) => {
   const body = req.body;
+  // console.log(body);
 
   const nameCheck = persons.find(person => person.name === body.name);
 
@@ -65,7 +72,6 @@ app.post('/api/persons', (req, res) => {
     return res.status(400).json({ error: 'Name already exists'})
   }
 
-
   const person = {
     name: body.name,
     number: body.number,
@@ -76,7 +82,6 @@ app.post('/api/persons', (req, res) => {
   console.log(persons);
 
   res.json(person);
-
 })
 
 const PORT = 3001;
