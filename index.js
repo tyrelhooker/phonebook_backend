@@ -1,11 +1,13 @@
 const express = require('express');
 const db = require("./db.json");
 const morgan = require('morgan');
+const cors = require('cors');
 
 const app = express();
 
 // Middleware
 app.use(express.json());
+app.use(cors());
 
 morgan.token('reqBody', (req, res) => JSON.stringify(req.body))
 
