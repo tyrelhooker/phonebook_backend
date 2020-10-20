@@ -12,6 +12,7 @@
     "deploy:full": "npm run build:ui && git add . && git commit -m uibild && npm run deploy",
     "logs:prod": "heroku logs --tail"
   },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tyrelhooker/phonebook_backend.git"
