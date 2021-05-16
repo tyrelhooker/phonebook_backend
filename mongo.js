@@ -31,9 +31,10 @@ const personSchema = new mongoose.Schema({
 const Person = mongoose.model('Person', personSchema);
 
 if (procArgLen < 3) {
-  console.log('Please provide a password as an argument, example: node <fileName>.js <password>');
+  console.log('Please provide a password as an argument, example: node mongo.js <password>');
   process.exit(1); 
-} else if (procArgLen === 3) {
+} 
+else if (procArgLen === 3) {
   console.log('prints all names');
 
   Person.find({})
@@ -44,10 +45,16 @@ if (procArgLen < 3) {
       mongoose.connection.close();
     })
   
-} else if (procArgLen === 4) {
+} 
+else if (procArgLen === 4) {
   console.log('Need to add name and phonenumber');
-} else {
-
+  process.exit(1);
+} 
+else if (procArgLen === 5 && typeof Number(process.argv[4]) !== 'number') {
+  console.log('Make sure names with spaces are enclosed in quotes');
+  process.exit(1);
+}
+else {
   const person = new Person({
     name: process.argv[3],
     number: process.argv[4]

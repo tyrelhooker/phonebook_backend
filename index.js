@@ -1,9 +1,12 @@
 const express = require('express');
-const db = require("./db.json");
+require('dotenv').config();
+// const db = require("./db.json");
 const morgan = require('morgan');
 const cors = require('cors');
+const Person = require('./models/person'); 
 
 const app = express();
+
 
 // Middleware
 app.use(express.json());
@@ -15,14 +18,16 @@ morgan.token('reqBody', (req, res) => JSON.stringify(req.body))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :reqBody'));
 
 // Global Variables and Functions
-let persons = db.persons.map(person => person);
-console.log(persons);
+// let persons = db.persons.map(person => person);
+// console.log(persons);
 
-const generateRandomId = () => Math.floor(Math.random() * 10000 + 1);
+// const generateRandomId = () => Math.floor(Math.random() * 10000 + 1);
 
 // ROUTES
 app.get('/api/persons', (req, res) => {
-  res.json(persons);
+  Person.find({}).then(persons => {
+    res.json(persons)
+  });
 })
 
 app.get('/info', (req, res) => {
@@ -87,5 +92,5 @@ app.post('/api/persons', (req, res) => {
   res.json(person);
 })
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
