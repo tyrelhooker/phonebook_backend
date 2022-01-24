@@ -13,7 +13,10 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFind
   })
 
 const personSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    required: [true, 'Why no name? Are you hiding from someone?']
+  },
   number: String
 });
 
